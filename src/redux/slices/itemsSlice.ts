@@ -3,9 +3,9 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 interface TodoType {
 	id: string
 	title: string
+	description: string
 	time: string
 }
-
 interface ItemsState {
 	todoList: TodoType[]
 }
