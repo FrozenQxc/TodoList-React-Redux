@@ -1,21 +1,19 @@
 import { useState } from 'react'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import Header from './components/Header'
 import ModalAddTodo from './components/ModalAddTodo'
-import TodoList from './components/card'
-import { Button } from './components/ui/button'
+import TodoList from './components/TodoList'
 
 export default function App() {
 	const [active, setActive] = useState<boolean>(false)
 
 	return (
-		<div className='flex justify-center items-center bg-[#111] h-screen flex-col'>
-			<div className='flex gap-2'>
-				<input type='text' />
-				<Button onClick={() => setActive(true)} variant='secondary'>
-					Добавить
-				</Button>
-			</div>
+		<div className=' bg-[#111] h-screen flex-col'>
 			{active && <ModalAddTodo setActive={setActive} />}
+			<Header setActive={setActive} />
 			<TodoList />
+			<ToastContainer />
 		</div>
 	)
 }

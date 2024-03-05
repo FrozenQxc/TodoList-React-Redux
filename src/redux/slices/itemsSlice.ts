@@ -1,44 +1,50 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-interface ItemType {
+interface TodoType {
 	id: string
 	title: string
+	time: string
 }
 
-interface ItemsType {
-	items: ItemType[]
+interface ItemsState {
+	todoList: TodoType[]
 }
 
-const initialState: ItemsType = {
-	items: [
-		{
-			id: '1',
-			title: 'Абоба',
-		},
-		{
-			id: '2',
-			title: 'Абоба1',
-		},
-		{
-			id: '3',
-			title: 'Абоба1',
-		},
-	],
+const getInitialTodo = (): TodoType[] => {
+	const localTodoList = window.localStorage.getItem('todoList')
+	if (localTodoList) {
+		return JSON.parse(localTodoList) as TodoType[]
+	}
+	window.localStorage.setItem('todoList', JSON.stringify([]))
+	return []
 }
 
 const itemsSlice = createSlice({
 	name: 'items',
-	initialState,
+	initialState: {
+		todoList: getInitialTodo(),
+	} as ItemsState,
 	reducers: {
-		setItems(state, action: PayloadAction<ItemType[]>) {
-			state.items = action.payload
-		},
-		removeItems(state, action: PayloadAction<string[]>) {
-			const removedItem = state.items.find(obj => obj.id === action.payload)
+		addTodo: (state, action: PayloadAction<TodoType>) => {
+			if (state.todoList) {
+				state.todoList.push(action.payload)
+				const todoListArr = JSON.parse(
+					window.localStorage.getItem('todoList') || '[]'
+				)
+				todoListArr.push({
+					...action.payload,
+				})
+				window.localStorage.setItem('todoList', JSON.stringify(todoListArr))
+			} else {
+				window.localStorage.setItem(
+					'todoList',
+					JSON.stringify([{ ...action.payload }])
+				)
+			}
 		},
 	},
 })
 
-export const { setItems, removeItems } = itemsSlice.actions
+export const { addTodo } = itemsSlice.actions
 
 export default itemsSlice.reducer

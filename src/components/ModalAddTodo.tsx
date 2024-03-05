@@ -1,16 +1,23 @@
+import { useAppDispatch } from '@/hooks/hooks'
 import { cn } from '@/lib/utils'
+import { addTodo } from '@/redux/slices/itemsSlice'
 import { useEffect, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
+import { v4 as uuid } from 'uuid'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 
 interface Props {
-	className?: string
 	setActive: (arg: boolean) => void
 }
 
-const ModalAddTodo = ({ className, setActive }: Props) => {
+const ModalAddTodo = ({ setActive }: Props) => {
 	const modalRef = useRef<HTMLDivElement>(null)
 	const [isVisible, setIsVisible] = useState(false)
+	const [title, setTitle] = useState('')
+	const [description, setDescription] = useState('')
+
+	const dispatch = useAppDispatch()
 
 	const handleClickOutside = (event: MouseEvent) => {
 		if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -21,6 +28,24 @@ const ModalAddTodo = ({ className, setActive }: Props) => {
 	const handleEscape = (event: KeyboardEvent) => {
 		if (event.key === 'Escape') {
 			setActive(false)
+		}
+	}
+
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault()
+		if (title) {
+			dispatch(
+				addTodo({
+					id: uuid(),
+					title,
+					description,
+					time: new Date().toLocaleString(),
+				})
+			)
+			toast.success('Успешно добавлено')
+			setActive(false)
+		} else {
+			if (!title) toast.error('Название не должно быть пустым')
 		}
 	}
 
@@ -49,24 +74,32 @@ const ModalAddTodo = ({ className, setActive }: Props) => {
 			<div
 				ref={modalRef}
 				className={cn(
-					'mx-auto bg-white rounded-md overflow-hidden transform transition-transform  ',
-					{ 'scale-100': isVisible, 'scale-90': !isVisible },
-					className
+					'mx-auto bg-white rounded-md overflow-hidden transform transition-transform',
+					{ 'scale-100': isVisible, 'scale-90': !isVisible }
 				)}
 			>
-				<div className='w-[400px] h-[230px] flex flex-col justify-between '>
+				<form
+					onSubmit={handleSubmit}
+					className='w-[400px] h-[230px] flex flex-col justify-between'
+				>
 					<div className='p-2 flex text-gray-500 text-[18px] border-b'>
 						Добавить таску
 					</div>
 					<div className='flex flex-col gap-5 m-3'>
-						<Input placeholder='Название' />
-						<Input placeholder='Описание' />
+						<Input
+							placeholder='Название'
+							onChange={e => setTitle(e.target.value)}
+						/>
+						<Input
+							placeholder='Описание'
+							onChange={e => setDescription(e.target.value)}
+						/>
 					</div>
 					<div className='flex justify-center gap-x-3 p-2'>
-						<Button>Добавить</Button>
+						<Button type='submit'>Добавить</Button>{' '}
 						<Button onClick={() => setActive(false)}>Закрыть</Button>
 					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 	)
