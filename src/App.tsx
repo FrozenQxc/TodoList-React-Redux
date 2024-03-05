@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react'
+import TodoList from './components/card'
 
 export default function App() {
 	const [value, setValue] = useState<string>('')
@@ -20,17 +21,7 @@ export default function App() {
 					Добавить
 				</button>
 			</div>
-
-			<ul className='text-white w-[300px]'>
-				{todo.map((todo, index) => (
-					<li
-						className='bg-white  cursor-pointer flex text-center justify-center  text-green-500  mt-2 hover:bg-black hover:text-white '
-						key={index}
-					>
-						{todo}
-					</li>
-				))}
-			</ul>
+			<TodoList />
 		</div>
 	)
 }
