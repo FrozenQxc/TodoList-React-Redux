@@ -24,7 +24,7 @@ const TodoList = () => {
 		select === 'all' ? items : items.filter(item => item.status === select)
 
 	return (
-		<main className='flex justify-center items-center flex-col mx-auto flex-wrap'>
+		<main className='flex justify-center items-center flex-col mx-auto flex-wrap gap-5 p-5  md:max-w-4xl lg:max-w-6xl xl:max-w-7xl'>
 			<select
 				value={select}
 				onChange={e => setSelect(e.target.value)}
@@ -37,14 +37,16 @@ const TodoList = () => {
 
 			{filteredItems.map((item, index) => (
 				<Card
-					className={cn('m-8 w-[500px] cursor-grab', {
+					className={cn('m-8  md:w-[500px] cursor-grab ', {
 						'bg-green-500': item.status === 'completed',
 					})}
 					key={index}
 				>
 					<CardHeader>
-						<div className='flex flex-wrap justify-between items-center'>
-							<CardTitle>{item.title}</CardTitle>
+						<div className='flex justify-between items-center text-center '>
+							<CardTitle className='text-[20px] md:text-[22px] '>
+								{item.title}
+							</CardTitle>
 							<div className='space-x-2'>
 								<Button
 									onClick={() => handleCompleteTodo(item.id)}
@@ -68,7 +70,7 @@ const TodoList = () => {
 						</div>
 					</CardHeader>
 					<CardContent>
-						<div className='flex flex-col gap-2'>
+						<div className='flex text-center flex-col gap-2 md:text-start '>
 							<p className=''>{item.description}</p>
 							<p className='text-muted-foreground'>{item.time.slice(0, 10)}</p>
 						</div>

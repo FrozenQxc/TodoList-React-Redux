@@ -81,7 +81,7 @@ const ModalAddTodo = ({ setActive }: Props) => {
 			>
 				<form
 					onSubmit={handleSubmit}
-					className='w-[400px] h-[230px] flex flex-col justify-between'
+					className='w-[350px]  md:w-[400px] h-[230px] flex flex-col justify-between'
 				>
 					<div className='p-2 flex text-gray-500 text-[18px] border-b'>
 						Добавить таску
