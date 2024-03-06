@@ -39,6 +39,7 @@ const ModalAddTodo = ({ setActive }: Props) => {
 					id: uuid(),
 					title,
 					description,
+					status: 'incomplete',
 					time: new Date().toLocaleString(),
 				})
 			)

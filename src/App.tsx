@@ -13,6 +13,7 @@ export default function App() {
 			{active && <ModalAddTodo setActive={setActive} />}
 			<Header setActive={setActive} />
 			<TodoList />
+
 			<ToastContainer />
 		</div>
 	)

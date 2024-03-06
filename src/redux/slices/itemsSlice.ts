@@ -3,9 +3,11 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 interface TodoType {
 	id: string
 	title: string
+	status: string
 	description: string
 	time: string
 }
+
 interface ItemsState {
 	todoList: TodoType[]
 }
@@ -15,7 +17,6 @@ const getInitialTodo = (): TodoType[] => {
 	if (localTodoList) {
 		return JSON.parse(localTodoList) as TodoType[]
 	}
-	window.localStorage.setItem('todoList', JSON.stringify([]))
 	return []
 }
 
@@ -26,25 +27,27 @@ const itemsSlice = createSlice({
 	} as ItemsState,
 	reducers: {
 		addTodo: (state, action: PayloadAction<TodoType>) => {
-			if (state.todoList) {
-				state.todoList.push(action.payload)
-				const todoListArr = JSON.parse(
-					window.localStorage.getItem('todoList') || '[]'
-				)
-				todoListArr.push({
-					...action.payload,
-				})
-				window.localStorage.setItem('todoList', JSON.stringify(todoListArr))
-			} else {
-				window.localStorage.setItem(
-					'todoList',
-					JSON.stringify([{ ...action.payload }])
-				)
-			}
+			state.todoList.push(action.payload)
+			window.localStorage.setItem('todoList', JSON.stringify(state.todoList))
+		},
+		removeTodo: (state, action: PayloadAction<string>) => {
+			const todoId = action.payload
+			state.todoList = state.todoList.filter(todo => todo.id !== todoId)
+			window.localStorage.setItem('todoList', JSON.stringify(state.todoList))
+		},
+		completeTodo: (state, action: PayloadAction<string>) => {
+			const todoId = action.payload
+			state.todoList = state.todoList.map(todo => {
+				if (todo.id === todoId) {
+					return { ...todo, status: 'completed' }
+				}
+				return todo
+			})
+			window.localStorage.setItem('todoList', JSON.stringify(state.todoList))
 		},
 	},
 })
 
-export const { addTodo } = itemsSlice.actions
+export const { addTodo, removeTodo, completeTodo } = itemsSlice.actions
 
 export default itemsSlice.reducer
