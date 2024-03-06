@@ -7,13 +7,11 @@ import TodoList from './components/TodoList'
 
 export default function App() {
 	const [active, setActive] = useState<boolean>(false)
-
 	return (
 		<div className=' bg-[#111] h-full md:h-dvh flex-col'>
 			{active && <ModalAddTodo setActive={setActive} />}
 			<Header setActive={setActive} />
 			<TodoList />
-
 			<ToastContainer />
 		</div>
 	)

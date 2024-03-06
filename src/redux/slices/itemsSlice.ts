@@ -1,12 +1,5 @@
+import { TodoType } from '@/Types/type'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-
-interface TodoType {
-	id: string
-	title: string
-	status: string
-	description: string
-	time: string
-}
 
 interface ItemsState {
 	todoList: TodoType[]
@@ -30,6 +23,17 @@ const itemsSlice = createSlice({
 			state.todoList.push(action.payload)
 			window.localStorage.setItem('todoList', JSON.stringify(state.todoList))
 		},
+		updateTodo: (state, action: PayloadAction<TodoType>) => {
+			const updatedTodo = action.payload
+			state.todoList = state.todoList.map(todo => {
+				if (todo.id === updatedTodo.id) {
+					return updatedTodo
+				}
+				return todo
+			})
+			window.localStorage.setItem('todoList', JSON.stringify(state.todoList))
+		},
+
 		removeTodo: (state, action: PayloadAction<string>) => {
 			const todoId = action.payload
 			state.todoList = state.todoList.filter(todo => todo.id !== todoId)
@@ -51,6 +55,7 @@ const itemsSlice = createSlice({
 	},
 })
 
-export const { addTodo, removeTodo, completeTodo } = itemsSlice.actions
+export const { addTodo, removeTodo, completeTodo, updateTodo } =
+	itemsSlice.actions
 
 export default itemsSlice.reducer

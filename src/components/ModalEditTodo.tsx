@@ -1,38 +1,49 @@
 import { useAppDispatch } from '@/hooks/hooks'
-import { addTodo } from '@/redux/slices/itemsSlice'
+import { updateTodo } from '@/redux/slices/itemsSlice'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { v4 as uuid } from 'uuid'
 import ModalWrap from './ui/ModalWrap'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 
 interface Props {
 	setActive: (arg: boolean) => void
+	id: string
+	title: string
+	status: string
+	description: string
+	time: string
 }
 
-const ModalAddTodo = ({ setActive }: Props) => {
-	const [title, setTitle] = useState('')
-	const [description, setDescription] = useState('')
+const ModalEditTodo = ({
+	id,
+	title: initialTitle,
+	status,
+	description: initialDescription,
+	time,
+	setActive,
+}: Props) => {
+	const [title, setTitle] = useState(initialTitle)
+	const [description, setDescription] = useState(initialDescription)
 
 	const dispatch = useAppDispatch()
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
-		if (title) {
+		if (title.trim()) {
 			dispatch(
-				addTodo({
-					id: uuid(),
-					title,
-					description,
-					status: 'incomplete',
-					time: new Date().toLocaleString(),
+				updateTodo({
+					id: id,
+					title: title,
+					description: description,
+					status: status,
+					time: time,
 				})
 			)
-			toast.success('Успешно добавлено')
+			toast.success('Задача успешно обновлена')
 			setActive(false)
 		} else {
-			if (!title) toast.error('Название не должно быть пустым')
+			toast.error('Название не должно быть пустым')
 		}
 	}
 
@@ -40,23 +51,25 @@ const ModalAddTodo = ({ setActive }: Props) => {
 		<ModalWrap setActive={setActive}>
 			<form
 				onSubmit={handleSubmit}
-				className='w-[350px]  md:w-[400px] h-[230px] flex flex-col justify-between'
+				className='w-[350px] md:w-[400px] h-[230px] flex flex-col justify-between'
 			>
 				<div className='p-2 flex text-gray-500 text-[18px] border-b'>
-					Добавить таску
+					Изменить таску
 				</div>
 				<div className='flex flex-col gap-5 m-3'>
 					<Input
 						placeholder='Название'
+						value={title}
 						onChange={e => setTitle(e.target.value)}
 					/>
 					<Input
 						placeholder='Описание'
+						value={description}
 						onChange={e => setDescription(e.target.value)}
 					/>
 				</div>
 				<div className='flex justify-center gap-x-3 p-2'>
-					<Button type='submit'>Добавить</Button>{' '}
+					<Button type='submit'>Обновить</Button>{' '}
 					<Button onClick={() => setActive(false)}>Закрыть</Button>
 				</div>
 			</form>
@@ -64,4 +77,4 @@ const ModalAddTodo = ({ setActive }: Props) => {
 	)
 }
 
-export default ModalAddTodo
+export default ModalEditTodo
