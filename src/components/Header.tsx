@@ -6,7 +6,7 @@ interface Props {
 
 const Header = ({ setActive }: Props) => {
 	return (
-		<div className='flex flex-col justify-center items-center gap-4 p-5 md:flex-row'>
+		<div className='flex flex-col justify-center items-center gap-4 p-5 md:flex-row '>
 			<div className='flex gap-x-2 items-center'>
 				<a
 					title='Посмотреть код'

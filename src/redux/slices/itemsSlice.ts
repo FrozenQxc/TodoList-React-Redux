@@ -35,11 +35,14 @@ const itemsSlice = createSlice({
 			state.todoList = state.todoList.filter(todo => todo.id !== todoId)
 			window.localStorage.setItem('todoList', JSON.stringify(state.todoList))
 		},
-		completeTodo: (state, action: PayloadAction<string>) => {
-			const todoId = action.payload
+		completeTodo: (
+			state,
+			action: PayloadAction<{ id: string; status: string }>
+		) => {
+			const { id, status } = action.payload
 			state.todoList = state.todoList.map(todo => {
-				if (todo.id === todoId) {
-					return { ...todo, status: 'completed' }
+				if (todo.id === id) {
+					return { ...todo, status: status }
 				}
 				return todo
 			})
