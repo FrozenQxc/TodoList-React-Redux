@@ -64,7 +64,7 @@ const TodoItems = ({ id, title, status, description, time }: Props) => {
 								onClick={() => setActive(true)}
 								variant='outline'
 								size='icon'
-								className='hover:bg-blue-500'
+								className='hover:bg-blue-500 h-8 w-8 md:h-8 md:w-8'
 							>
 								<Pencil />
 							</Button>
@@ -72,7 +72,7 @@ const TodoItems = ({ id, title, status, description, time }: Props) => {
 								onClick={() => handleRemoveTodo(id)}
 								variant='outline'
 								size='icon'
-								className='hover:bg-red-500'
+								className='hover:bg-red-500 h-8 w-8 md:h-8 md:w-8   '
 							>
 								<X />
 							</Button>
