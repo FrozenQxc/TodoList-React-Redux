@@ -58,6 +58,7 @@ const ModalEditTodo = ({
 				</div>
 				<div className='flex flex-col gap-5 m-3'>
 					<Input
+						autoFocus
 						placeholder='Название'
 						value={title}
 						onChange={e => setTitle(e.target.value)}

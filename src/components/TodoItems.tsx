@@ -30,7 +30,7 @@ const TodoItems = ({ id, title, status, description, time }: Props) => {
 	}
 
 	return (
-		<div className='scroll'>
+		<div>
 			{active && (
 				<ModalEditTodo
 					id={id}
