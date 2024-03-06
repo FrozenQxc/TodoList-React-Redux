@@ -9,6 +9,7 @@ export default function App() {
 	const [active, setActive] = useState<boolean>(false)
 	return (
 		<div className=' bg-[#111] min-h-screen'>
+			
 			{active && <ModalAddTodo setActive={setActive} />}
 			<Header setActive={setActive} />
 			<TodoList />

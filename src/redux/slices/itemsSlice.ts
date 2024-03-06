@@ -1,3 +1,5 @@
+// Ваш редюсер itemsSlice.ts
+
 import { TodoType } from '@/Types/type'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
@@ -33,7 +35,6 @@ const itemsSlice = createSlice({
 			})
 			window.localStorage.setItem('todoList', JSON.stringify(state.todoList))
 		},
-
 		removeTodo: (state, action: PayloadAction<string>) => {
 			const todoId = action.payload
 			state.todoList = state.todoList.filter(todo => todo.id !== todoId)
@@ -52,10 +53,14 @@ const itemsSlice = createSlice({
 			})
 			window.localStorage.setItem('todoList', JSON.stringify(state.todoList))
 		},
+		setTodoList: (state, action: PayloadAction<TodoType[]>) => {
+			state.todoList = action.payload
+			window.localStorage.setItem('todoList', JSON.stringify(state.todoList))
+		},
 	},
 })
 
-export const { addTodo, removeTodo, completeTodo, updateTodo } =
+export const { addTodo, removeTodo, completeTodo, updateTodo, setTodoList } =
 	itemsSlice.actions
 
 export default itemsSlice.reducer
