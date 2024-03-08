@@ -1,6 +1,6 @@
 # TodoList React + Redux 👺
 
-Сайт: https://todo-list-react-redux-kohl.vercel.app
+Деплой: https://todo-list-react-redux-kohl.vercel.app
 
 Стек⚒:
 1. Основной : React Redux-Toolkit, TypeSctipt, 
